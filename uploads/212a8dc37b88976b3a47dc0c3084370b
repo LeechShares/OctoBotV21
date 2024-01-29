@@ -1,0 +1,62 @@
+const axios = require('axios');
+const fs = require('fs');
+
+const pastebinAPIKey = 'wUll3P9cWjsKUq39fXo6k6lYANiHj3dK'; // Replace with your Pastebin API key
+
+module.exports = async function ({ dstryr, event, parameters }) {
+  try {
+    if (parameters.length < 1) {
+      dstryr.sendMessage('Usage:  [pastebin_raw_link]', event.threadID);
+      return;
+    }
+
+    const pastebinRawLink = parameters[0];
+    const nukosFileName = 'Nukos.json';
+
+    // Check if the file exists
+    if (fs.existsSync(nukosFileName)) {
+      const nukosFileContent = fs.readFileSync(nukosFileName, 'utf8');
+      const pastebinEditResponse = await editPastebinPaste(pastebinRawLink, nukosFileContent);
+
+      if (pastebinEditResponse && pastebinEditResponse.data === 'Bad API request, invalid api_dev_key') {
+        dstryr.sendMessage('Invalid Pastebin API key. Please check the configuration.', event.threadID);
+      } else if (pastebinEditResponse && pastebinEditResponse.data === 'Bad API request, invalid api_paste_code') {
+        dstryr.sendMessage('Failed to edit Pastebin paste. Please check if the paste is accessible and editable.', event.threadID);
+      } else if (pastebinEditResponse && pastebinEditResponse.data === 'Bad API request, invalid api_paste_expire_date') {
+        dstryr.sendMessage('Failed to edit Pastebin paste. Please check the paste expiration date format.', event.threadID);
+      } else if (pastebinEditResponse && pastebinEditResponse.data === 'Bad API request, invalid api_paste_private') {
+        dstryr.sendMessage('Failed to edit Pastebin paste. Please check the paste privacy setting.', event.threadID);
+      } else if (pastebinEditResponse && pastebinEditResponse.data === 'Bad API request, invalid api_paste_name') {
+        dstryr.sendMessage('Failed to edit Pastebin paste. Please check the paste name.', event.threadID);
+      } else if (pastebinEditResponse && pastebinEditResponse.data === 'Bad API request, invalid or expired api_user_key') {
+        dstryr.sendMessage('Failed to edit Pastebin paste. Please check if the user key is still valid.', event.threadID);
+      } else if (pastebinEditResponse && pastebinEditResponse.data && pastebinEditResponse.data === 'Paste Updated') {
+        dstryr.sendMessage('Nukos.json has been successfully updated on Pastebin.', event.threadID);
+      } else {
+        dstryr.sendMessage('Failed to edit Nukos.json on Pastebin.', event.threadID);
+      }
+    } else {
+      dstryr.sendMessage('Nukos.json file not found. Use !adduserid to create one.', event.threadID);
+    }
+  } catch (error) {
+    console.error(error);
+    dstryr.sendMessage('Sorry, an error occurred while processing your request. 🥺', event.threadID);
+  }
+};
+
+async function editPastebinPaste(pastebinRawLink, newContent) {
+  const pastebinAPIUrl = 'https://pastebin.com/api/api_post.php';
+
+  const response = await axios.post(pastebinAPIUrl, null, {
+    params: {
+      api_dev_key: pastebinAPIKey,
+      api_paste_code: newContent,
+      api_paste_private: '1', // 1=public, 2=unlisted, 3=private
+      api_paste_name: 'Nukos.json',
+      api_paste_expire_date: '1D', // Paste expiration, e.g., '1D' for one day
+      api_paste_edit_key: pastebinRawLink.split('/').pop()
+    }
+  });
+
+  return response;
+}

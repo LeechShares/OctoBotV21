@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🐙 OctoBot</title>
+  <style>
+     .modale {
+      display: none;
+      position: fixed;
+       width: 100%; 
+            height: 100%; /* Full height */
+            background-color: rgba(0,0,0,0.7); 
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 20px;
+      /*background: #fff;*/
+      border: 1px solid #ccc;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+     }
+    body {
+      background-color: #000;
+      color: #0F0;
+      font-family: 'Courier New', monospace;
+      margin: 0;
+      padding: 10px;
+    }
+    h1, h2, label {
+      color: #0F0;
+    }
+    input {
+      background-color: #000;
+      color: #0F0;
+      border-radius: 4px;
+      border: 1px solid #0F0;
+      padding: 5px;
+      margin: 5px 0;
+      width: 95%;
+    }
+    button {
+      background-color: #00F;
+      color: #0F0;
+      border: none;
+      padding: 8px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0F0;
+      color: #00F;
+    }
+    form {
+      margin-bottom: 20px;
+    }
+      /* Style for the textarea */
+.custom-textarea {
+  width: 95%;
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  resize: none; /* Disable textarea resizing */
+}
+  fieldset {
+  /*margin-top: 50%; */
+   border: 1px solid green;
+   border-radius: 5px;
+  /* background-color: white; */
+   }
+
+  legend {
+  font-size: 20px;
+  color: #0F0;
+   border: 1.2px solid green;
+   border-radius: 5px;
+
+  /* background-color: white; */
+
+  }
+ /*DEFAULT*/
+ button {
+  box-shadow:inset 0px 4px 0px 0px #dcecfb;
+  background:linear-gradient(to bottom, #bddbfa 5%, #80b5ea 100%);
+  background-color: black;
+  border-radius:6px;
+  border:1px solid #84bbf3;
+  display:inline-block;
+  cursor:pointer;
+  color: black;
+  font-family:Courier New;
+  font-size:20px;
+  font-weight:bold;
+  padding:4px 14px;
+  text-decoration:none;
+  text-shadow:0px 1px 0px #528ecc;
+  box-shadow: 0 2px green; 
+}
+.button:hover {
+  background:linear-gradient(to bottom, #80b5ea 5%, #bddbfa 100%);
+  /*background-color:#80b5ea; */
+}
+button:active {
+  position:relative;
+  top:1px;
+  background-color: #3e8e41;
+    box-shadow: 0 5px green;
+ transform: translateY(1px); 
+}
+button:disabled {
+  background-color: silver;
+  box-shadow: 0 5px red;
+  transform: translateY(2px);
+}
+
+    /* Styling for the modal container */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            background-color: rgba(0,0,0,0.7); /* Black background with opacity */
+        }
+
+
+        .modal-content {
+            background-color: black;
+            border-radius: 5px;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid lime;
+            width: 80%; /* 80% of the parent element */
+        }
+
+        /* Close button style */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+       a {
+       text-decoration: none;
+       color: orange;
+       font-size: 15px
+       }
+ hr {
+      border: 1px solid lime; /* Border color */
+      margin: 20px 0; /* Margin above and below the line */
+    }
+    #typewriter-text {
+      overflow: hidden;
+      /* white-space: nowrap; */
+      font-size: 18px;
+      border-right: 2px solid #000; /* Adjust the border style as needed */
+    }
+  </style>
+</head>
+<body>
+  <h1>🐙 OctoBotv1</h1>
+  <details open>
+  <summary>About:
+  </summary>
+<p>OctoBot is a bot modules created and maintained by <a href="https://www.facebook.com/rejardbentazarofficial">Rejard Bentazar</a> aims is to practice my coding skills and para maging pogi sa mata ng chicks at maka dali ng mga wait kakanta ako <i>🎶Mga Silly Hoes na mabisa, Mga Aso Labas Dila, Tumitira ket walang tisa, Alam mong masarap kase mali na🎶</i> Basta PaFollow naman po tsaka join nadin sa gc ko <a href="https://m.me/j/Abbl63EsX-6_NN7W/">ChatWithAiOfficial</a> Maraming Salamat🖤</p>
+
+        </details> 
+        <details>
+  <summary>Endpoints:
+  </summary>
+  <fieldset>
+<mark>api/sessionData</mark> - for Season or token</fieldset><br>
+<fieldset><mark>api/userData</mark> - for Season or token</fieldset><br>
+        </details> 
+        <br>
+<fieldset>
+  <legend><b>👥Users</b></legend>
+  <div id="userIds"></div>
+  </fieldset>
+  </br>
+<!--
+<fieldset>
+  <legend><b>🙋‍♂️Add User ID</b></legend>
+  <form id="addForm">
+    <label for="addInput">User ID:</label>
+    <input type="text" id="addInput" name="uid" required>
+    <button type="submit">Add</button>
+  </form>
+  <details>
+  <summary>GUIDE
+  </summary>
+<p>This Features can help to avoid outsider to use ur bot yahay code mog inyo uie</p>
+
+        </details> 
+  </fieldset>
+-->
+<br>
+<fieldset>
+  <legend><b style="color:red">🙅‍♂️Delete User ID</b></legend>
+  <form id="deleteForm">
+    <label for="deleteInput">User ID:</label>
+    <input type="text" id="deleteInput" name="uid" required>
+    <button type="submit">Delete</button>
+  </form>
+  <details>
+  <summary>GUIDE
+  </summary>
+<p>This Feature will remove spammer or yung mga boblaks na trip mong i remove</p>
+
+        </details> 
+</fieldset>
+</br>
+ <fieldset>
+  <legend><b>🍪Update Cookie</b></legend>
+  <form id="uploadForm" enctype="multipart/form-data">
+    <label for="cookieFile">Select a cookie file (JSON):</label>
+    <input type="file" id="cookieFile" name="cookieFile" accept=".json" required>
+    <button type="button" onclick="uploadCookies()">Update Cookie</button>
+    </form>
+    <details>
+  <summary>GUIDE
+  </summary>
+<p>This Feature will automatically update your OctoBOT_Appstate make sure use the <mark>api/sessionData</mark> to fetch </p>
+
+        </details> 
+  </fieldset>
+  <br>
+  
+</fieldset><br>
+ <fieldset>
+  <legend><b>🚀Command List</b></legend>
+  <ul id="fileList"></ul>
+</fieldset>
+<br>
+  <fieldset><legend>Restart</legend>
+  <button id="restartButton">Restart Bot</button>
+  </fieldset>
+  <br>
+  <!--
+<fieldset><summary>AutoRestart Configuration</summary>
+  <form id="configForm">
+    
+  <table>
+  <tr>
+    <td>AutoRestart:</td>
+    <td><input type="radio" name="autoRestart" value="true" checked> True</td>
+    <td><input type="radio" name="autoRestart" value="false"> False</td>
+  </tr>
+</table>
+    
+    <br>
+    <label>
+      Time (minutes):
+      <input type="number" name="time" min="1" value="40">
+    </label>
+    <br>
+    <button type="button" onclick="saveConfig()">Save Config</button>
+  </form>
+  </fieldset>
+-->
+  <center>
+ <p>©Rejard2024</p>
+  </center>
+   
+    <!-- Modal HTML -->
+<div id="passwordModal" class="modal">
+<p id="typewriter-text"></p>
+<a href="https://www.facebook.com/rejardbentazarofficial">👤CONTACT DEVELOPER</a><BR>
+   <a href="https://bit.ly/DSTRYRxHard-Portfolio ">👾DSTRYRxHard's Portfolio</a><br>
+   <a href="https://m.me/j/Abbl63EsX-6_NN7W/">💬Join OctoBot Official Group Chat</a>
+<br>
+<a href="https://chatwithai-official.zya.me/ ">🌐ChatWithAiOfficial Website</a>
+<details><summary>Register to OctoBotv2</summary>
+  <fieldset>
+  <legend><b>🙋‍♂️Register to OctoBot</b></legend>
+  <form id="addForm">
+    <label for="addInput">YOUR FACEBOOK UID:</label>
+    <input type="text" id="addInput" placeholder= "100012874754515" name="uid" required>
+    <button type="submit">Register</button>
+  </form>
+  <details>
+  <summary>GUIDE
+  </summary>
+<p>Yupssy para makuha yung Facebook UID mo ay i copylink mo profil3 mo tas paste mo d2 <a href="https://lookup-id.com/#">LookUP</a> ah basta may toturial sa site tas pag nakuha mo na paste mo d2 </p>
+
+        </details> 
+  </fieldset>
+  </details>
+  
+  <details><summary>Upload A Custom Command</summary>
+  <fieldset>
+  <legend><b>📂Upload Custom Commands</b></legend>
+  <input type="file" id="fileInput" />
+  <button onclick="uploadFile()">Upload</button>
+  <br>
+  <br>
+      <details>
+  <summary>GUIDE
+  </summary>
+<p>in uploading cmds read examples how to create a cmds <a href="https://www.facebook.com/100092157610613/posts/pfbid02jmsmN7JXXHnWFi9VK1mDvwubAUJ1F16g6eTu35cVkoEnvHSiuA4GzCmYGvCqCUo2l/">ReadItHete</a></p>
+
+        </details> 
+    
+    </fieldset>
+    </details>
+  
+<div style="color:red" id="showModalButton">▶Access Admin Dashboard</div>
+
+
+<!-- Modal -->
+<div id="joinNa" class="modal">
+
+  <div class="modal-content">
+  <h3>🐙Access Admin Dashboard</h3>
+    
+<p style="color:red">gwapo lang pupuwede d2 ayks </p>
+  <p>Enter the password:</p>
+  <input type="password" id="passwordInput">
+  <button onclick="checkPassword()">Submit</button>
+ <button id="closeModalButton">Close</button>
+ </br>
+ <br>
+     <details>
+  <summary>Source Code:
+  </summary>
+<p style="color:yellow">Abtika sa panuway uie🐀 mga tinidorist jud</p>
+
+        </details> 
+  </div>
+</div>
+  <script>
+    async function fetchUserIds() {
+      const response = await fetch('/api/data');
+      const data = await response.json();
+      const userIdsElement = document.getElementById('userIds');
+      userIdsElement.textContent = data.ChatWithAiOfficialUserIDs.join(', ');
+    }
+
+    async function handleSubmit(formId, endpoint) {
+      const form = document.getElementById(formId);
+      form.addEventListener('submit', async function (event) {
+        event.preventDefault();
+        const formData = new FormData(form);
+        const uid = formData.get('uid');
+        const response = await fetch(`/api/${endpoint}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ uid })
+        });
+        const result = await response.json();
+        alert(result.message);
+        fetchUserIds();
+      });
+    }
+
+    async function uploadCookies() {
+      const form = document.getElementById('uploadForm');
+      const formData = new FormData(form);
+
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData
+      });
+
+      const result = await response.json();
+      alert(result.message);
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      fetchUserIds();
+      handleSubmit('addForm', 'add');
+      handleSubmit('deleteForm', 'delete');
+    });
+    /*
+document.addEventListener('DOMContentLoaded', function () {
+  const password = prompt('Enter the Access Code');
+  if (password !== 'rejardgwapodev69') {
+    alert('Incorrect password. Access denied.');
+    document.body.innerHTML = ''; // Clears the page content
+  }
+});
+*/
+    document.addEventListener('DOMContentLoaded', function () {
+      // Show the password modal on page load
+      document.getElementById('passwordModal').style.display = 'block';
+    });
+
+    function checkPassword() {
+      const password = document.getElementById('passwordInput').value;
+      if (password !== 'rejardgwapodev69') {
+        alert('Incorrect password. Access denied.');
+        document.body.innerHTML = ''; // Clears the page content
+      } else {
+        // Hide the modal if the password is correct
+        document.getElementById('passwordModal').style.display = 'none';
+      }
+    }
+    //autores 
+    /*
+    function updateConfig() {
+      const formData = new FormData(document.getElementById('configForm'));
+      const autoRestart = formData.get('autoRestart');
+      const time = formData.get('time');
+
+      // Send a GET request to update the configuration
+      fetch(`/api/updateConfig?autoRestart=${autoRestart}&time=${time}`)
+        .then(response => response.json())
+        .then(data => {
+          alert(data.message);
+        })
+        .catch(error => {
+          console.error('Error updating config:', error);
+        });
+    }
+    */
+    document.getElementById('restartButton').addEventListener('click', function() {
+  // Prompt the user for the restart interval
+  const restartInterval = prompt('Enter restart interval in minutes:');
+  
+  // Make sure the input is a valid number
+  if (!isNaN(restartInterval) && restartInterval > 0) {
+    // Make a request to the server endpoint responsible for triggering auto-restart
+    fetch('/api/restartBot', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        restartInterval: parseInt(restartInterval), // Set the restart interval to user input
+      }),
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        alert(`Bot will restart in ${restartInterval} minutes.`);
+      } else {
+        alert('Failed to trigger auto-restart.');
+      }
+    })
+    .catch(error => {
+      console.error('Error triggering auto-restart:', error);
+    });
+  } else {
+    alert('Please enter a valid positive number for the restart interval.');
+  }
+});
+    /*
+    document.getElementById('restartButton').addEventListener('click', function() {
+    // Make a request to the server endpoint responsible for triggering auto-restart
+    fetch('/api/restartBot', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        restartInterval: 5, // Set the restart interval to 5 minutes
+      }),
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        alert('Bot will restart in 5 minutes.');
+      } else {
+        alert('Failed to trigger auto-restart.');
+      }
+    })
+    .catch(error => {
+      console.error('Error triggering auto-restart:', error);
+    });
+  });
+  */
+  const text = `Welcome to OctoBotv2 your one and only bot that is community friendly,Enables the user to upload custom commands`;
+  let index = 0;
+
+  function typeWriter() {
+    document.getElementById("typewriter-text").innerHTML += text.charAt(index);
+    index++;
+
+    if (index < text.length) {
+      setTimeout(typeWriter, 50); // Adjust the speed (milliseconds) as needed
+    }
+  }
+
+  typeWriter();
+  
+  document.addEventListener('DOMContentLoaded', function () {
+        var modal = document.getElementById('joinNa');
+        var showModalButton = document.getElementById('showModalButton');
+        var closeModalButton = document.getElementById('closeModalButton');
+
+        showModalButton.addEventListener('click', function () {
+            modal.style.display = 'block';
+        });
+
+        closeModalButton.addEventListener('click', function () {
+            modal.style.display = 'none';
+        });
+    });
+  </script>
+  <script src="imongmama.js"></script>
+  <script src="modal.js"></script>
+  <script src="nukos.js"></script>
+   
+</body>
+</html>
